@@ -37,9 +37,33 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
+
 function decode(expr) {
-    // write your solution here
+    var newArrOfExpr = expr.split(/(.{10})/).filter(O=>O);
+    var newArrOfExprWithoutZero = newArrOfExpr.map(function (x){
+        return x.replace(/00/g, "");
+    });
+    var newArrDots = newArrOfExprWithoutZero.map(function (y){
+        return y.replace(/10/g, ".");
+    });
+    var newArrDashes = newArrDots.map(function (y){
+        return y.replace(/11/g, "-");
+    });
+    var finalMorseArr = newArrDashes.map(function (y){
+        return y.replace(/\*\*\*\*\*\*\*\*\*\*/g, " ");
+    });
+
+    for (let i=0; i < finalMorseArr.length; i++){
+        for (let key in MORSE_TABLE){
+            if (finalMorseArr[i] === key){
+                finalMorseArr[i] = MORSE_TABLE[key];
+            }
+        }
+    }
+    var wordsPhrase = finalMorseArr.join('') ;
+    return wordsPhrase;
 }
+
 
 module.exports = {
     decode
